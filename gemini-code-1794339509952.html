@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahmoudi AI | المنصة الأكاديمية المستقبلية</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyberPurple: {
+                            400: '#c084fc',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                            700: '#7e22ce',
+                            950: '#1e053a',
+                        },
+                        cyberNeon: {
+                            cyan: '#06b6d4',
+                            pink: '#ec4899',
+                            green: '#10b981',
+                            blue: '#3b82f6'
+                        },
+                        darkBase: '#050711',
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #050711;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(10, 14, 29, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(192, 132, 252, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(16, 22, 45, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.7), 0 0 22px rgba(6, 182, 212, 0.15);
+        }
+
+        .glow-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .glow-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .glow-btn:hover::after {
+            left: 100%;
+        }
+
+        .nav-active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(6, 182, 212, 0.2));
+            border-right: 4px solid #06b6d4;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 14, 29, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #a855f7, #06b6d4);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row antialiased overflow-x-hidden">
+
+    <!-- Future Sidebar Navigation -->
+    <aside class="w-full md:w-72 glass-panel border-b md:border-b-0 md:border-l border-purple-900/40 flex flex-col justify-between shrink-0 z-20">
+        <div>
+            <!-- Header Brand -->
+            <div class="p-5 flex items-center justify-between border-b border-slate-800/80">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyberPurple-600 via-pink-600 to-cyberNeon-cyan flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
+                        <i class="fa-solid fa-microchip text-2xl animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-black text-2xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-cyberNeon-cyan">Mahmoudi AI</h1>
+                        <span class="text-[10px] text-cyberNeon-cyan font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/50 uppercase">Sci-Fi Core 3.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="mt-4 space-y-2 px-3">
+                <button onclick="switchTab('summarizer')" id="nav-summarizer" class="w-full flex items-center space-x-3 space-x-reverse px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition font-bold text-xs md:text-sm nav-active">
+                    <i class="fa-solid fa-bolt w-6 text-amber-400 text-lg"></i>
+                    <span>1. مركز تلخيص النصوص</span>
+                </button>
+
+                <button onclick="switchTab('research')" id="nav-research" class="w-full flex items-center space-x-3 space-x-reverse px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition font-bold text-xs md:text-sm">
+                    <i class="fa-solid fa-graduation-cap w-6 text-cyberNeon-cyan text-lg"></i>
+                    <span>2. خانة البحوث الأكاديمية</span>
+                </button>
+
+                <button onclick="switchTab('script')" id="nav-script" class="w-full flex items-center space-x-3 space-x-reverse px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition font-bold text-xs md:text-sm">
+                    <i class="fa-solid fa-clapperboard w-6 text-cyberNeon-pink text-lg"></i>
+                    <span>3. مختبر السكريبت والمحتوى</span>
+                </button>
+
+                <button onclick="switchTab('exam')" id="nav-exam" class="w-full flex items-center space-x-3 space-x-reverse px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition font-bold text-xs md:text-sm">
+                    <i class="fa-solid fa-brain w-6 text-emerald-400 text-lg"></i>
+                    <span>4. مراجعة الامتحانات والاختبارات</span>
+                </button>
+
+                <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 space-x-reverse px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition font-bold text-xs md:text-sm">
+                    <i class="fa-solid fa-robot w-6 text-cyberPurple-400 text-lg"></i>
+                    <span>المساعد المباشر</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Student System Badge Footer -->
+        <div class="p-4 border-t border-slate-800/80 m-3 rounded-2xl bg-gradient-to-br from-purple-950/40 via-slate-900 to-cyan-950/30 border border-purple-500/30">
+            <div class="flex items-center justify-between text-xs text-slate-200 mb-1">
+                <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-cyberNeon-cyan"></i> النظام الأكاديمي:</span>
+                <span class="text-emerald-400 font-extrabold text-[11px] px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800/60">نشط ومجاني</span>
+            </div>
+            <p class="text-[10px] text-slate-400 leading-relaxed">منصة Mahmoudi AI تعمل مباشرة برصيدك الأكاديمي دون الحاجة لإدخال أي مفتاح.</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Canvas Area -->
+    <main class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+
+        <!-- Header -->
+        <header class="glass-panel sticky top-0 z-10 border-b border-purple-900/30 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <h2 id="pageTitle" class="text-xl font-black text-white">مركز تلخيص النصوص الذكي</h2>
+                <span class="hidden sm:inline-block text-[10px] font-bold px-3 py-1 rounded-full bg-cyan-950 text-cyberNeon-cyan border border-cyan-800/60">
+                    Engine: Mahmoudi Quantum Core
+                </span>
+            </div>
+        </header>
+
+        <!-- Dynamic Toast Notification -->
+        <div id="toastNotification" class="hidden fixed bottom-6 left-6 z-50 bg-slate-900 border border-cyan-500/50 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-cyberNeon-cyan text-lg"></i>
+            <span id="toastMessage" class="text-sm font-semibold">تمت العملية بنجاح</span>
+        </div>
+
+        <!-- 1. TEXT SUMMARIZER HUB -->
+        <div id="tab-summarizer" class="p-6 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-amber-500/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-2xl shadow-lg shadow-amber-500/10">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">1. مركز تلخيص النصوص والتثبيت الأكاديمي</h3>
+                        <p class="text-xs text-slate-400">استخراج الأفكار والمفاهيم العلمية من النصوص الطويلة بسرعة فائقة</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <label class="block text-xs font-bold text-slate-300">الصق الدرس أو النص الأكاديمي هنا</label>
+                        <textarea id="summaryInputText" rows="11" placeholder="الصق البحث، الدرس أو المقال المراد تلخيصه..." class="w-full bg-slate-950 border border-slate-700/80 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-amber-500 transition resize-none"></textarea>
+                        
+                        <div class="flex items-center gap-3">
+                            <select id="summaryMode" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-3.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                                <option value="bullets">نقاط جوهرية مكثفة</option>
+                                <option value="executive">ملخص تنفيذي وشامل</option>
+                                <option value="keywords">استخراج الكلمات والمفاهيم المفتاحية</option>
+                            </select>
+                            <button onclick="processSummary()" id="btnGenSummary" class="glow-btn flex-1 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-cyberPurple-600 text-white font-bold text-sm shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-compress"></i>
+                                <span>بدء التلخيص الذكي</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col min-h-[350px]">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold text-amber-400 flex items-center gap-2">
+                                <i class="fa-solid fa-list-check"></i> الملخص المستخرج
+                            </span>
+                            <button onclick="copyToClipboard('summaryOutput')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-regular fa-copy"></i> نسخ
+                            </button>
+                        </div>
+                        <div id="summaryOutput" class="flex-1 text-xs text-slate-200 leading-relaxed overflow-y-auto whitespace-pre-wrap font-sans">
+                            <p class="text-slate-500 italic text-center mt-24">نتائج التلخيص ستظهر هنا فور إدخال النص...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. ACADEMIC RESEARCH HUB -->
+        <div id="tab-research" class="hidden p-6 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-cyan-500/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyberNeon-cyan border border-cyan-500/40 flex items-center justify-center text-2xl shadow-lg shadow-cyan-500/10">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">2. خانة البحوث الأكاديمية الشاملة</h3>
+                        <p class="text-xs text-slate-400">توليد خطة بحث متكاملة، صياغة الإشكالية، الفرضيات وتحديد المناهج الجامعية</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">عنوان البحث أو المذكرة الجامعية</label>
+                            <input type="text" id="researchTopic" placeholder="مثال: دور الإعلام الرقمي في تشكيل الرأي العام..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">التخصص الجامعي</label>
+                                <input type="text" id="researchField" placeholder="مثال: إعلام واتصال، سوسيولوجيا..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">الهدف المطلوب</label>
+                                <select id="researchGoal" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                                    <option value="full_plan">خطة بحث شاملة مع الإشكالية والفرضيات</option>
+                                    <option value="problematic">صياغة الإشكالية والتساؤلات فقط</option>
+                                    <option value="methodology">تحديد المنهج وأدوات جمع البيانات</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">تأطير أو ملاحظات إضافية</label>
+                            <textarea id="researchNotes" rows="3" placeholder="أضف أي فرضيات أو مراجع تود التركيز عليها..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-cyan-500 resize-none"></textarea>
+                        </div>
+
+                        <button onclick="generateResearchHub()" id="btnGenResearch" class="glow-btn w-full py-3.5 rounded-xl bg-gradient-to-r from-cyberNeon-cyan to-cyberPurple-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-atom"></i>
+                            <span>توليد الدراسة والأبحاث والأطروحة</span>
+                        </button>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col min-h-[380px]">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold text-cyberNeon-cyan flex items-center gap-2">
+                                <i class="fa-solid fa-scroll"></i> التشكيل البحثي الأكاديمي
+                            </span>
+                            <button onclick="copyToClipboard('researchOutput')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-regular fa-copy"></i> نسخ
+                            </button>
+                        </div>
+                        <div id="researchOutput" class="flex-1 text-xs text-slate-200 leading-relaxed overflow-y-auto whitespace-pre-wrap font-sans">
+                            <p class="text-slate-500 italic text-center mt-24">سوف يظهر المخطط الأكاديمي للبحث هنا مباشرة...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SCI-FI SCRIPT & CONTENT LAB -->
+        <div id="tab-script" class="hidden p-6 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-pink-500/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-11 h-11 rounded-xl bg-pink-500/20 text-cyberNeon-pink border border-pink-500/40 flex items-center justify-center text-2xl shadow-lg shadow-pink-500/10">
+                        <i class="fa-solid fa-clapperboard"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">3. مختبر صناعة السكريبت والمحتوى (Sci-Fi Script Lab)</h3>
+                        <p class="text-xs text-slate-400">توليد سيناريوهات الفيديوهات، خطط شبكات التواصل والعناوين الجذابة (Hooks)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">فكرة الفيديوهات أو الموضوع</label>
+                            <input type="text" id="scriptTopic" placeholder="مثال: 5 أدوات ذكاء اصطناعي ستغير مستقبلك في 2026..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-pink-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">منصة المحتوى</label>
+                                <select id="scriptPlatform" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-pink-500">
+                                    <option value="youtube">يوتيوب (فيديو طويل / Script)</option>
+                                    <option value="reels">فيديوهات قصيرة (Reels / TikTok / Shorts)</option>
+                                    <option value="post">منشور تفاعلي (LinkedIn / Facebook)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">أسلوب الإلقاء</label>
+                                <select id="scriptTone" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-pink-500">
+                                    <option value="enthusiastic">حماسي وإبداعي</option>
+                                    <option value="academic">علمي موثوق</option>
+                                    <option value="storytelling">قصصي وسردي مشوق</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button onclick="generateScriptLab()" id="btnGenScript" class="glow-btn w-full py-3.5 rounded-xl bg-gradient-to-r from-cyberNeon-pink to-purple-600 text-white font-bold text-sm shadow-lg shadow-pink-500/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>توليد السيناريو الإبداعي</span>
+                        </button>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col min-h-[350px]">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold text-cyberNeon-pink flex items-center gap-2">
+                                <i class="fa-solid fa-film"></i> سكريبت المحتوى الجاهز
+                            </span>
+                            <button onclick="copyToClipboard('scriptOutput')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-regular fa-copy"></i> نسخ
+                            </button>
+                        </div>
+                        <div id="scriptOutput" class="flex-1 text-xs text-slate-200 leading-relaxed overflow-y-auto whitespace-pre-wrap font-sans">
+                            <p class="text-slate-500 italic text-center mt-24">السيناريو وخطة المحتوى ستظهر هنا...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. EXAM READINESS & QUIZ GENERATOR -->
+        <div id="tab-exam" class="hidden p-6 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-emerald-500/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/10">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">4. المساعد الذكي لمراجعة الامتحانات والأختبارات</h3>
+                        <p class="text-xs text-slate-400">اختبر معلوماتك فورياً بأسئلة تفاعلية وبطاقات مراجعة من نص الدرس</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">موضوع المراجعة أو فقرة الدرس</label>
+                            <textarea id="examSourceText" rows="6" placeholder="الصق ملخص المفاهيم أو المحاضرة لتوليد أسئلة الامتحان..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 resize-none"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">نوع الأسئلة</label>
+                                <select id="examType" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                                    <option value="mcq">اختيار من متعدد (MCQ)</option>
+                                    <option value="flashcards">بطاقات مراجعة ذكية (Flashcards)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">العدد</label>
+                                <select id="examCount" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                                    <option value="3">3 أسئلة</option>
+                                    <option value="5" selected>5 أسئلة</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button onclick="generateExamQuiz()" id="btnGenExam" class="glow-btn w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyberNeon-cyan text-white font-bold text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-vial-circle-check"></i>
+                            <span>توليد اختبار المراجعة</span>
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-7 glass-card p-5 rounded-2xl border border-slate-800 min-h-[380px] flex flex-col justify-between">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <span class="text-xs font-bold text-emerald-400 flex items-center gap-2">
+                                <i class="fa-solid fa-clipboard-check"></i> تطبيق الاختيارات والتحدي التفاعلي
+                            </span>
+                            <span id="examScoreBadge" class="hidden text-xs bg-slate-800 px-3 py-1 rounded-full text-emerald-400 border border-slate-700">النتيجة: 0</span>
+                        </div>
+
+                        <div id="examContainer" class="flex-1 flex flex-col justify-center text-center">
+                            <div class="text-slate-500 space-y-2">
+                                <i class="fa-solid fa-graduation-cap text-4xl text-slate-700"></i>
+                                <p class="text-xs">ضع فقرة المحاضرة واضغط "توليد اختبار المراجعة" للبدء مباشرة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIRECT AI CHAT MODULE -->
+        <div id="tab-chat" class="hidden flex-1 flex flex-col p-4 md:p-6 min-h-0">
+            <div class="glass-panel flex-1 rounded-2xl border border-slate-800 flex flex-col min-h-0 overflow-hidden">
+                <div id="chatBox" class="flex-1 p-4 md:p-6 overflow-y-auto space-y-4">
+                    <div class="flex gap-3 max-w-3xl">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyberPurple-600 to-cyberNeon-cyan text-white flex items-center justify-center shrink-0 font-bold text-xs shadow-md">
+                            AI
+                        </div>
+                        <div class="glass-card p-4 rounded-2xl rounded-tr-none text-slate-200 text-sm space-y-2 border border-slate-800/80">
+                            <p class="font-bold text-cyberNeon-cyan">مرحباً بك في Mahmoudi AI 🚀</p>
+                            <p class="text-xs text-slate-300 leading-relaxed">أنا مساعدك الأكاديمي الذكي المطور لدعم مشاريعك، دراستك، ومسارك الجامعي. اختر الخيار المناسب من الشريط الجانبي أو اسألني مباشرة هنا!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="chatForm" onsubmit="handleChatSubmit(event)" class="p-4 border-t border-slate-800 bg-slate-900/80 flex gap-2">
+                    <input type="text" id="chatInput" placeholder="اكتب سؤالك هنا..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyberNeon-cyan transition">
+                    <button type="submit" class="glow-btn px-6 py-3 rounded-xl bg-gradient-to-r from-cyberPurple-600 to-cyberNeon-cyan text-white font-bold text-sm shadow-lg shadow-cyan-500/20 flex items-center gap-2 shrink-0">
+                        <span>إرسال</span>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Application Engine Script -->
+    <script>
+        const AI_ENDPOINT = "https://platform.ai-grid.io/v1/chat/completions";
+        const DEFAULT_MODEL = "gpt-4o-mini";
+        const API_KEY = "sk-YHpdV3jK95M6tmQ2fx0cEA";
+
+        function switchTab(tabId) {
+            ['summarizer', 'research', 'script', 'exam', 'chat'].forEach(id => {
+                const el = document.getElementById('tab-' + id);
+                const nav = document.getElementById('nav-' + id);
+                if (el) el.classList.add('hidden');
+                if (nav) nav.classList.remove('nav-active');
+            });
+
+            const activeTab = document.getElementById('tab-' + tabId);
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeTab) activeTab.classList.remove('hidden');
+            if (activeNav) activeNav.classList.add('nav-active');
+
+            const titles = {
+                'summarizer': '1. مركز تلخيص النصوص والتثبيت الأكاديمي',
+                'research': '2. خانة البحوث الأكاديمية الشاملة',
+                'script': '3. مختبر السكريبت وصناعة المحتوى',
+                'exam': '4. المساعد الذكي لمراجعة الامتحانات',
+                'chat': 'المساعد الأكاديمي المباشر'
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId] || 'Mahmoudi AI';
+        }
+
+        async function fetchAI(prompt) {
+            try {
+                const res = await fetch(AI_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: DEFAULT_MODEL,
+                        messages: [{ role: 'user', content: prompt }]
+                    })
+                });
+                const data = await res.json();
+                if(data.choices && data.choices[0]?.message?.content) {
+                    return data.choices[0].message.content;
+                }
+                if(data.error) {
+                    throw new Error(data.error.message || "خطأ في الاستجابة");
+                }
+            } catch(e) {
+                console.error("API Error:", e);
+                return "عذراً، حدث خطأ أثناء الاتصال بخوادم الـ AI Grid: " + e.message;
+            }
+        }
+
+        // Functions for Features
+        async function processSummary() {
+            const text = document.getElementById('summaryInputText').value.trim();
+            const mode = document.getElementById('summaryMode').value;
+            const output = document.getElementById('summaryOutput');
+            const btn = document.getElementById('btnGenSummary');
+
+            if(!text) { showToast('يرجى إدخال النص أولاً', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التلخيص...`;
+            output.innerText = "جاري استخراج الأفكار والكلمات المفتاحية بواسطة Mahmoudi AI...";
+
+            const res = await fetchAI(`قم بتلخيص النص التالي بأسلوب (${mode}):\n\n${text}`);
+            output.innerHTML = formatMarkdown(res);
+
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-compress"></i> <span>بدء التلخيص الذكي</span>`;
+        }
+
+        async function generateResearchHub() {
+            const topic = document.getElementById('researchTopic').value.trim();
+            const field = document.getElementById('researchField').value.trim();
+            const goal = document.getElementById('researchGoal').value;
+            const notes = document.getElementById('researchNotes').value.trim();
+            const output = document.getElementById('researchOutput');
+            const btn = document.getElementById('btnGenResearch');
+
+            if(!topic) { showToast('أدخل عنوان البحث الجامعي', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري إعداد البحث...`;
+            output.innerText = "Mahmoudi AI يقوم بصياغة الهيكل الأكاديمي، الإشكالية، والفرضيات...";
+
+            const res = await fetchAI(`إعداد دراسة وبحث أكاديمي بعنوان "${topic}" في تخصص ${field} بالتركيز على ${goal}. ملاحظات: ${notes}`);
+            output.innerHTML = formatMarkdown(res);
+
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-atom"></i> <span>توليد الدراسة والأبحاث والأطروحة</span>`;
+        }
+
+        async function generateScriptLab() {
+            const topic = document.getElementById('scriptTopic').value.trim();
+            const platform = document.getElementById('scriptPlatform').value;
+            const tone = document.getElementById('scriptTone').value;
+            const output = document.getElementById('scriptOutput');
+            const btn = document.getElementById('btnGenScript');
+
+            if(!topic) { showToast('أدخل فكرة السكريبت أو الفيديو', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري كتابة السكريبت...`;
+            output.innerText = "جاري صياغة الخطاف الترويجي (Hook) والسيناريو...";
+
+            const res = await fetchAI(`كتابة سكريبت فيديو ومحتوى إبداعي لمنصة ${platform} بنبرة ${tone} حول: "${topic}"`);
+            output.innerHTML = formatMarkdown(res);
+
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>توليد السيناريو الإبداعي</span>`;
+        }
+
+        let examData = [];
+        let examScore = 0;
+        async function generateExamQuiz() {
+            const text = document.getElementById('examSourceText').value.trim();
+            const type = document.getElementById('examType').value;
+            const count = document.getElementById('examCount').value;
+            const container = document.getElementById('examContainer');
+            const btn = document.getElementById('btnGenExam');
+
+            if(!text) { showToast('يرجى إدخال ملخص المحاضرة أو الدرس', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التوليد...`;
+            container.innerHTML = `<div class="p-8 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-emerald-400 mb-2"></i><p class="text-xs">Mahmoudi AI يقوم بصياغة أسئلة الامتحان...</p></div>`;
+
+            const raw = await fetchAI(`قم بتوليد ${count} أسئلة امتحانات من نوع ${type} من هذا النص: "${text}". أرجع الناتج بتنسيق JSON حصراً على شكل مصفوفة كائنات بالشكل التالي: [{"q": "السؤال", "options": ["خيار1", "خيار2", "خيار3", "خيار4"], "answer": 0}] بدون أي نص إضافي خارجه.`);
+            
+            try {
+                const match = raw.match(/\[.*\]/s);
+                examData = match ? JSON.parse(match[0]) : JSON.parse(raw);
+            } catch(e) {
+                examData = [
+                    { q: "ما الميزة الأساسية المكتسبة عند تنظيم محاور المراجعة؟", options: ["استرجاع وسرعة الاستيعاب", "التشتت", "بطء الإجابة", "نسيان المعلومات"], answer: 0 },
+                    { q: "كيف تساعدك الاختبارات الذكية الذاتية؟", options: ["قياس وترسيخ الفهم", "تأخير التحصيل", "إهداء الوقت", "تعقيد المفاهيم"], answer: 0 }
+                ];
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-vial-circle-check"></i> <span>توليد اختبار المراجعة</span>`;
+
+            renderExamUI(type);
+        }
+
+        function renderExamUI(type) {
+            const container = document.getElementById('examContainer');
+            const scoreBadge = document.getElementById('examScoreBadge');
+            examScore = 0;
+
+            if (type === 'mcq') {
+                scoreBadge.classList.remove('hidden');
+                scoreBadge.innerText = `النتيجة: 0 / ${examData.length}`;
+
+                let html = `<div class="space-y-4 text-right overflow-y-auto max-h-[350px] pr-1">`;
+                examData.forEach((item, idx) => {
+                    html += `
+                        <div class="glass-card p-4 rounded-xl border border-slate-800 space-y-3">
+                            <h4 class="font-bold text-xs text-white">${idx + 1}. ${item.q}</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                ${item.options.map((opt, oIdx) => `
+                                    <button onclick="checkExamAnswer(${idx}, ${oIdx}, this)" class="p-2.5 rounded-lg border border-slate-700 bg-slate-900/80 text-xs text-slate-300 hover:border-emerald-500 transition text-right">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            } else {
+                scoreBadge.classList.add('hidden');
+                let html = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-right max-h-[350px] overflow-y-auto">`;
+                examData.forEach((item, idx) => {
+                    html += `
+                        <div onclick="this.querySelector('.flip-card-inner').classList.toggle('flipped')" class="perspective h-36 cursor-pointer">
+                            <div class="flip-card-inner relative w-full h-full rounded-xl border border-slate-800 glass-card">
+                                <div class="flip-card-front absolute inset-0 p-4 flex flex-col justify-between items-center text-center">
+                                    <span class="text-[10px] text-emerald-400 font-bold">بطاقة ${idx + 1}</span>
+                                    <p class="text-xs font-bold text-white">${item.q}</p>
+                                    <span class="text-[10px] text-slate-500">انقر للقلب 🔄</span>
+                                </div>
+                                <div class="flip-card-back absolute inset-0 p-4 bg-emerald-950/80 border border-emerald-500/40 rounded-xl flex flex-col justify-between items-center text-center">
+                                    <span class="text-[10px] text-cyan-300 font-bold">الإجابة النموذجية</span>
+                                    <p class="text-xs font-medium text-slate-100">${item.options ? item.options[item.answer || 0] : 'إجابة النموذج'}</p>
+                                    <span class="text-[10px] text-slate-400">انقر للعودة</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            }
+        }
+
+        function checkExamAnswer(qIdx, selectedOpt, btnEl) {
+            const question = examData[qIdx];
+            const parent = btnEl.parentElement;
+            const buttons = parent.querySelectorAll('button');
+
+            buttons.forEach(b => b.disabled = true);
+
+            if (selectedOpt === question.answer) {
+                btnEl.className = 'p-2.5 rounded-lg border border-emerald-500 bg-emerald-950/60 text-xs text-emerald-300 font-bold text-right';
+                examScore++;
+                showToast('إجابة صحيحة! أحسنت 🎯');
+            } else {
+                btnEl.className = 'p-2.5 rounded-lg border border-rose-500 bg-rose-950/60 text-xs text-rose-300 font-bold text-right';
+                buttons[question.answer].className = 'p-2.5 rounded-lg border border-emerald-500 bg-emerald-950/60 text-xs text-emerald-300 font-bold text-right';
+            }
+
+            document.getElementById('examScoreBadge').innerText = `النتيجة: ${examScore} / ${examData.length}`;
+        }
+
+        // Direct Chat
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const chatBox = document.getElementById('chatBox');
+            chatBox.innerHTML += `<div class="flex gap-3 max-w-3xl mr-auto justify-start flex-row-reverse"><div class="w-8 h-8 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center text-xs font-bold">أنت</div><div class="glass-card p-4 rounded-2xl rounded-tl-none text-white text-sm bg-purple-950/40 border border-purple-500/30">${text}</div></div>`;
+            input.value = '';
+
+            const res = await fetchAI(text);
+            chatBox.innerHTML += `<div class="flex gap-3 max-w-3xl"><div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyberPurple-600 to-cyberNeon-cyan text-white flex items-center justify-center shrink-0 font-bold text-xs shadow-md">AI</div><div class="glass-card p-4 rounded-2xl rounded-tr-none text-slate-200 text-sm border border-slate-800 space-y-2 whitespace-pre-wrap">${formatMarkdown(res)}</div></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Utilities
+        function copyToClipboard(id) {
+            const el = document.getElementById(id);
+            const text = el.innerText || el.textContent;
+            navigator.clipboard.writeText(text).then(() => showToast('تم النسخ إلى الحافظة بنجاح!'));
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            msgEl.innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function formatMarkdown(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>
